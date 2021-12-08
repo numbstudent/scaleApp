@@ -10,10 +10,6 @@ from django.contrib.auth.decorators import login_required
 from django import template
 register = template.Library()
 
-@register.filter
-def running_total(sales_list):
-    return sum(d.get('jumlah') for d in sales_list)
-
 loginpage = 'login'
 
 @login_required(login_url=loginpage)
