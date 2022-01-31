@@ -22,4 +22,9 @@ class Register(models.Model):
 class Logging(models.Model):
     datetime = models.DateTimeField(auto_now=True)
     weighing = models.FloatField()
-    register = models.ForeignKey(Register, on_delete=models.CASCADE)
+    register = models.ForeignKey(Register, on_delete=models.CASCADE, blank=True, null=True)
+
+class PrintHeader(models.Model):
+    name = models.CharField(max_length=50)
+    label = models.CharField(max_length=20)
+    imageurl = models.CharField(max_length=100)
