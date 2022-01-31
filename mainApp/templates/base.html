@@ -19,7 +19,8 @@
     <link rel="stylesheet" href="{% static 'adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}">
     <!-- DataTables -->
     <link rel="stylesheet" href="{% static 'adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
-    <link rel="stylesheet" href="{% static 'adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+    <link rel="stylesheet"
+        href="{% static 'adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
     <link rel="stylesheet" href="{% static 'adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
     {% block css %}
     {% endblock %}
@@ -44,7 +45,7 @@
             <ul class="navbar-nav ml-auto">
 
                 <!-- Messages Dropdown Menu -->
-                
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">
                         <button class="btn btn-secondary">
@@ -748,73 +749,82 @@
             <!-- Control sidebar content goes here -->
         </aside>
         <!-- /.control-sidebar -->
-    <!-- ./wrapper -->
+        <!-- ./wrapper -->
 
-    <!-- jQuery -->
-    <script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <!-- AdminLTE App -->
-    <script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{% static 'adminlte/dist/js/demo.js' %}"></script>
-    <!-- Select2 -->
-    <script src="{% static 'adminlte/plugins/select2/js/select2.full.min.js' %}"></script>
-    <!-- DataTables  & Plugins -->
-    <script src="{% static 'adminlte/plugins/datatables/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/jszip/jszip.min.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/pdfmake/pdfmake.min.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/pdfmake/vfs_fonts.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
-    <script src="{% static 'adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
-    <script>
-        $(function () {
-            //Initialize Select2 Elements
-            $('.select2bs4').select2({
-                theme: 'bootstrap4'
+        <!-- jQuery -->
+        <script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+        <!-- Bootstrap 4 -->
+        <script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <!-- AdminLTE App -->
+        <script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="{% static 'adminlte/dist/js/demo.js' %}"></script>
+        <!-- Select2 -->
+        <script src="{% static 'adminlte/plugins/select2/js/select2.full.min.js' %}"></script>
+        <!-- DataTables  & Plugins -->
+        <script src="{% static 'adminlte/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/jszip/jszip.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/pdfmake/pdfmake.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/pdfmake/vfs_fonts.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+        <script src="{% static 'adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+        <script>
+            $(function () {
+                //Initialize Select2 Elements
+                $('.select2bs4').select2({
+                    theme: 'bootstrap4'
+                })
             })
-        })
-    </script>
-    <script>
-        $(function () {
-            $('textarea').attr('rows', 2);
-        });
-    </script>
-    {% block additionaljs %}
-    <script>
-        //------------------------ THOUSAND SEPARATOR ------------------------
-        var elem = document.getElementById("num");
+        </script>
+        <script>
+            $(function () {
+                $('textarea').attr('rows', 2);
+            });
+        </script>
+        {% block additionaljs %}
+        <script>
+            //------------------------ THOUSAND SEPARATOR ------------------------
+            var elem = document.getElementById("num");
 
-        elem.addEventListener("keydown", function (event) {
-            var key = event.which;
-            if ((key < 48 || key > 57) && key != 8) event.preventDefault();
-        });
+            elem.addEventListener("keydown", function (event) {
+                var key = event.which;
+                if ((key < 48 || key > 57) && key != 8) event.preventDefault();
+            });
 
-        elem.addEventListener("keyup", function (event) {
-            var value = this.value.replace(/,/g, "");
-            this.dataset.currentValue = parseInt(value);
-            var caret = value.length - 1;
-            while ((caret - 3) > -1) {
-                caret -= 3;
-                value = value.split('');
-                value.splice(caret + 1, 0, ",");
-                value = value.join('');
+            elem.addEventListener("keyup", function (event) {
+                var value = this.value.replace(/,/g, "");
+                this.dataset.currentValue = parseInt(value);
+                var caret = value.length - 1;
+                while ((caret - 3) > -1) {
+                    caret -= 3;
+                    value = value.split('');
+                    value.splice(caret + 1, 0, ",");
+                    value = value.join('');
+                }
+                this.value = value;
+                showValue();
+            });
+
+            function showValue() {
+                console.log(document.getElementById("num").dataset.currentValue);
             }
-            this.value = value;
-            showValue();
-        });
+        </script>
+        <script>
+            function sendit() {
+                // $('#weight').text(new Date().getUTCSeconds()).trigger('keydown', { keyCode: 13, which: 13 })
+                $(document.activeElement).val(new Date().getUTCSeconds()).trigger('keydown', { keyCode: 13, which: 13 })
+                setTimeout(sendit, 1000);
+            }
+            setTimeout(sendit, 1000);
 
-        function showValue() {
-            console.log(document.getElementById("num").dataset.currentValue);
-        }
-    </script>
-    {% endblock %}
+        </script>
+        {% endblock %}
 </body>
 
 </html>
