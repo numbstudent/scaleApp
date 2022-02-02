@@ -11,6 +11,10 @@ class Batch(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     createdon = models.DateTimeField(auto_now_add=True)
     updatedon = models.DateTimeField(auto_now=True)
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['no', 'product'], name='no_product_unique')
+        ]
 
 class Register(models.Model):
     batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
@@ -18,6 +22,14 @@ class Register(models.Model):
     status = models.IntegerField()
     createdon = models.DateTimeField(auto_now_add=True)
     updatedon = models.DateTimeField(auto_now=True)
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                Lower('batch'),
+                Lower('boxno').desc(),
+                name='no_product_unique',
+            ),
+        ]
 
 class Logging(models.Model):
     datetime = models.DateTimeField(auto_now=True)
