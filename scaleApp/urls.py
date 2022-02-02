@@ -22,4 +22,6 @@ urlpatterns = [
     path('home', mv.index, name='mainpage'),
     path('auth/', include('secureapp.urls')),
 
+    path('products/', mv.ProductList),
+    path('products/<int:pk>/', mv.ProductDetail),
 ]
