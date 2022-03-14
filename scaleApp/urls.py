@@ -22,6 +22,10 @@ urlpatterns = [
     path('home', mv.index, name='mainpage'),
     path('auth/', include('secureapp.urls')),
 
-    path('products/', mv.ProductList),
+    path('products/', mv.ProductList, name='products'),
     path('products/<int:pk>/', mv.ProductDetail),
+
+    path('registers/', mv.RegisterList, name='registers'),
+    path('registers/<int:pk>/', mv.RegisterDetail),
+    path('registersFiltered/', mv.RegisterFilteredList, name='registersFiltered'),
 ]

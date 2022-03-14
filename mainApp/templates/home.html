@@ -18,7 +18,11 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12 display-4">
-                                <input class="form-control" type="text" id="batchno" value="ABC123">
+                                <input class="form-control" type="text" id="qr" value="CHLON0.5%-|ICLG19050|2|INF|BG|">
+                                <!-- <input type="hidden" id="code">
+                                <input type="hidden" id="batchno"> -->
+                                <input type="text" id="code">
+                                <input type="text" id="batchno">
                             </div>
                         </div>
                     </div>
@@ -26,7 +30,7 @@
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <button class="btn btn-block btn-success p-5">CHOOSE BOX</button>
+                    <button class="btn btn-block btn-success p-5" id="submitBoxno">CHOOSE BOX</button>
                 </div>
             </div>
         </div>
@@ -77,7 +81,7 @@
                 <h3 class="card-title">BATCH HISTORY</h3>
             </div>
             <div class="card-body" style="overflow-y: scroll; height:500px;">
-                <ul class="products-list product-list-in-card pl-2 pr-2">
+                <ul class="products-list product-list-in-card pl-2 pr-2" id="batchhistorylist">
                     <li class="item">
                         <div class="product-img">
                             <button class="btn btn-danger">
@@ -85,7 +89,7 @@
                             </button>
                         </div>
                         <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">PlayStation 4
+                            <a href="javascript:void(0)" class="product-title">Paracetamol
                                 <span class="display-4 float-right">15.002 KG </span></a>
                             <span class="product-description">
                                 BATCH NO. ABC123 BOX NO. 12
@@ -99,7 +103,7 @@
                             </button>
                         </div>
                         <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">PlayStation 4
+                            <a href="javascript:void(0)" class="product-title">Paracetamol
                                 <span class="display-4 float-right">15.002 KG </span></a>
                             <span class="product-description">
                                 BATCH NO. ABC123 BOX NO. 12
@@ -113,7 +117,7 @@
                             </button>
                         </div>
                         <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">PlayStation 4
+                            <a href="javascript:void(0)" class="product-title">Paracetamol
                                 <span class="display-4 float-right">15.002 KG </span></a>
                             <span class="product-description">
                                 BATCH NO. ABC123 BOX NO. 12
@@ -127,7 +131,7 @@
                             </button>
                         </div>
                         <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">PlayStation 4
+                            <a href="javascript:void(0)" class="product-title">Paracetamol
                                 <span class="display-4 float-right">15.002 KG </span></a>
                             <span class="product-description">
                                 BATCH NO. ABC123 BOX NO. 12
@@ -141,7 +145,7 @@
                             </button>
                         </div>
                         <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">PlayStation 4
+                            <a href="javascript:void(0)" class="product-title">Paracetamol
                                 <span class="display-4 float-right">15.002 KG </span></a>
                             <span class="product-description">
                                 BATCH NO. ABC123 BOX NO. 12
@@ -155,7 +159,7 @@
                             </button>
                         </div>
                         <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">PlayStation 4
+                            <a href="javascript:void(0)" class="product-title">Paracetamol
                                 <span class="display-4 float-right">15.002 KG </span></a>
                             <span class="product-description">
                                 BATCH NO. ABC123 BOX NO. 12
@@ -169,7 +173,7 @@
                             </button>
                         </div>
                         <div class="product-info">
-                            <a href="javascript:void(0)" class="product-title">PlayStation 4
+                            <a href="javascript:void(0)" class="product-title">Paracetamol
                                 <span class="display-4 float-right">15.002 KG </span></a>
                             <span class="product-description">
                                 BATCH NO. ABC123 BOX NO. 12
@@ -181,4 +185,75 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block additionaljs %}
+<script>
+    
+
+    var url = "{% url 'registers' %}"
+    $("#submitBoxno").click(function () {
+        var qr = $("#qr").val().split("|");
+        var code = qr[0]
+        var batchno = qr[1]
+        var boxno = qr[2]
+        if(code != null || code != ""){
+            $("#code").val(code)
+        }
+        if(batchno != null || batchno != ""){
+            $("#batchno").val(batchno)
+        }
+        // alert(code+" "+batchno+" "+boxno)
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: url,
+            data: JSON.stringify({code: code, batchno: batchno, boxno: boxno}),
+            success: function (data) {   // success callback function
+                console.log(data)
+            },
+            error: function (jqXhr, textStatus, errorMessage) { // error callback 
+                console.log('Error: ' + jqXhr.responseJSON.error)
+            }
+        })
+    })
+
+    function updateBoxList() {
+        var batchno = $("#batchno").val()
+        var code = $("#code").val()
+        console.log(batchno, code)
+        if (code) {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "/registersFiltered/",
+                data: JSON.stringify({ code: code, batchno: batchno }),
+                success: function (data) {   // success callback function
+                    var html = '';
+                    for (const row in data) {
+                        console.log(row)
+                    }
+                    // html += '<li class="item">
+                    //     <div class="product-img">
+                    //         <button class="btn btn-danger">
+                    //             <i class="fas fa-times"></i>
+                    //         </button>
+                    //     </div>
+                    //     <div class="product-info">
+                    //         <a href="javascript:void(0)" class="product-title">Paracetamol
+                    //             <span class="display-4 float-right">15.002 KG </span></a>
+                    //         <span class="product-description">
+                    //             BATCH NO. ABC123 BOX NO. 12
+                    //         </span>
+                    //     </div>
+                    // </li>'
+                    // $(#batchhistorylist).html(html)
+                }
+            })
+        }
+    }
+
+    const interval = setInterval(function () {
+            updateBoxList()
+    }, 5000);
+</script>
 {% endblock %}

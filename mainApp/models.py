@@ -2,33 +2,20 @@ from django.db import models
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    code = models.CharField(max_length=30)
+    code = models.CharField(max_length=30, unique=True)
     createdon = models.DateTimeField(auto_now_add=True)
     updatedon = models.DateTimeField(auto_now=True)
-
-class Batch(models.Model):
-    no = models.CharField(max_length=20)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    createdon = models.DateTimeField(auto_now_add=True)
-    updatedon = models.DateTimeField(auto_now=True)
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['no', 'product'], name='no_product_unique')
-        ]
 
 class Register(models.Model):
-    batch = models.ForeignKey(Batch, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    batchno = models.CharField(max_length=10)
     boxno = models.IntegerField()
     status = models.IntegerField()
     createdon = models.DateTimeField(auto_now_add=True)
     updatedon = models.DateTimeField(auto_now=True)
     class Meta:
         constraints = [
-            UniqueConstraint(
-                Lower('batch'),
-                Lower('boxno').desc(),
-                name='no_product_unique',
-            ),
+            models.UniqueConstraint(fields=['product','batchno', 'boxno'], name='productBatchnoBoxno')
         ]
 
 class Logging(models.Model):

@@ -8,6 +8,8 @@ from django.db.models import RestrictedError, Sum, Q, F
 from django.db.models.functions import Coalesce
 from django.contrib.auth.decorators import login_required
 from django import template
+from django.db import IntegrityError
+
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -59,4 +61,58 @@ def ProductDetail(request, pk):
 
     elif request.method == 'DELETE':
         product.delete()
+        return HttpResponse(status=204)
+
+@csrf_exempt
+def RegisterList(request):
+    if request.method == 'GET':
+        register = Register.objects.all()
+        serializer = RegisterSerializer(register, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        code = data['code']
+        product = Product.objects.filter(code=code).values_list('id').last()[0]
+        data['product'] = product
+        data['status'] = 0
+        serializer = RegisterSerializer(data=data)
+        if serializer.is_valid():
+            try:
+                serializer.save()
+                return JsonResponse(serializer.data, status=201)
+            except IntegrityError:
+                return JsonResponse({"error":"data sudah ada"}, status=400)
+        return JsonResponse(serializer.errors, status=400)
+
+@csrf_exempt
+def RegisterFilteredList(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        code = data['code']
+        register = Register.objects.filter(batchno=data['batchno'], product__code=code).values('product__name', 'batchno', 'boxno', 'status', 'id')
+        serializer = RegisterSerializer(register, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+@csrf_exempt
+def RegisterDetail(request, pk):
+    try:
+        register = Register.objects.get(pk=pk)
+    except Register.DoesNotExist:
+        return HttpResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = RegisterSerializer(register)
+        return JsonResponse(serializer.data)
+
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = RegisterSerializer(register, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+    elif request.method == 'DELETE':
+        register.delete()
         return HttpResponse(status=204)
